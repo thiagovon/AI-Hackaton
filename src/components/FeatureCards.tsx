@@ -58,24 +58,23 @@ const FeatureCards = () => {
     <div className="container mx-auto px-4 py-16">
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {features.map((feature, index) => (
-          <Collapsible
-            key={index}
-            open={openCards.includes(index)}
-            onOpenChange={() => toggleCard(index)}
-          >
-            <Card className="h-full transition-all hover:shadow-lg">
-              <CardHeader>
-                <CardTitle className="text-xl">{feature.title}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  {feature.description.map((desc, i) => (
-                    <p key={i} className="text-sm text-muted-foreground">
-                      {desc}
-                    </p>
-                  ))}
-                </div>
+          <Card key={index} className="h-full transition-all hover:shadow-lg">
+            <CardHeader>
+              <CardTitle className="text-xl">{feature.title}</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-2">
+                {feature.description.map((desc, i) => (
+                  <p key={i} className="text-sm text-muted-foreground">
+                    {desc}
+                  </p>
+                ))}
+              </div>
 
+              <Collapsible
+                open={openCards.includes(index)}
+                onOpenChange={() => toggleCard(index)}
+              >
                 <CollapsibleTrigger asChild>
                   <Button
                     variant="ghost"
@@ -101,9 +100,9 @@ const FeatureCards = () => {
                     </ul>
                   </div>
                 </CollapsibleContent>
-              </CardContent>
-            </Card>
-          </Collapsible>
+              </Collapsible>
+            </CardContent>
+          </Card>
         ))}
       </div>
     </div>
