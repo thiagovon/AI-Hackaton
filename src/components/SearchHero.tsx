@@ -91,7 +91,7 @@ const SearchHero = ({ onSearch }: SearchHeroProps) => {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-4rem)] flex-col items-center justify-center px-4">
+    <div className="flex min-h-[60vh] flex-col items-center justify-center px-4 py-12">
       <div className="w-full max-w-3xl space-y-6 text-center">
         <div className="space-y-4">
           <h2 className="text-4xl font-bold text-foreground md:text-5xl">
