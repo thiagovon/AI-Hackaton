@@ -57,10 +57,14 @@ export type Database = {
       }
       question: {
         Row: {
+          ano: number | null
+          banca: string | null
+          cargo: string | null
           created_at: string
           difficulty: Database["public"]["Enums"]["difficulty_level"] | null
           explanation: string | null
           id: string
+          instituicao: string | null
           owner_id: string
           source: string | null
           stem: string
@@ -71,10 +75,14 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          ano?: number | null
+          banca?: string | null
+          cargo?: string | null
           created_at?: string
           difficulty?: Database["public"]["Enums"]["difficulty_level"] | null
           explanation?: string | null
           id?: string
+          instituicao?: string | null
           owner_id?: string
           source?: string | null
           stem: string
@@ -85,10 +93,14 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          ano?: number | null
+          banca?: string | null
+          cargo?: string | null
           created_at?: string
           difficulty?: Database["public"]["Enums"]["difficulty_level"] | null
           explanation?: string | null
           id?: string
+          instituicao?: string | null
           owner_id?: string
           source?: string | null
           stem?: string
