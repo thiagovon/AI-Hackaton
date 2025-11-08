@@ -4,6 +4,7 @@ import { AppSidebar } from "@/components/AppSidebar";
 import Header from "@/components/Header";
 import SearchHero from "@/components/SearchHero";
 import ResultsDisplay from "@/components/ResultsDisplay";
+import FeatureCards from "@/components/FeatureCards";
 
 const Index = () => {
   const [searchResult, setSearchResult] = useState<{ query: string; result: string } | null>(null);
@@ -22,7 +23,7 @@ const Index = () => {
         <AppSidebar />
         <div className="flex-1 flex flex-col">
           <Header />
-          <div className="flex-1 bg-background">
+          <div className="flex-1 bg-background overflow-y-auto">
             {searchResult ? (
               <ResultsDisplay
                 query={searchResult.query}
@@ -30,7 +31,10 @@ const Index = () => {
                 onBack={handleBack}
               />
             ) : (
-              <SearchHero onSearch={handleSearch} />
+              <>
+                <SearchHero onSearch={handleSearch} />
+                <FeatureCards />
+              </>
             )}
           </div>
         </div>
