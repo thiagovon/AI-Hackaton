@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/AppSidebar";
 import Header from "@/components/Header";
 import SearchHero from "@/components/SearchHero";
 import ResultsDisplay from "@/components/ResultsDisplay";
@@ -15,18 +17,25 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      {searchResult ? (
-        <ResultsDisplay
-          query={searchResult.query}
-          result={searchResult.result}
-          onBack={handleBack}
-        />
-      ) : (
-        <SearchHero onSearch={handleSearch} />
-      )}
-    </div>
+    <SidebarProvider>
+      <div className="flex min-h-screen w-full">
+        <AppSidebar />
+        <div className="flex-1 flex flex-col">
+          <Header />
+          <div className="flex-1 bg-background">
+            {searchResult ? (
+              <ResultsDisplay
+                query={searchResult.query}
+                result={searchResult.result}
+                onBack={handleBack}
+              />
+            ) : (
+              <SearchHero onSearch={handleSearch} />
+            )}
+          </div>
+        </div>
+      </div>
+    </SidebarProvider>
   );
 };
 
