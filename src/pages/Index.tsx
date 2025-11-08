@@ -6,6 +6,7 @@ import SearchHero from "@/components/SearchHero";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import SearchRefinementChat from "@/components/SearchRefinementChat";
 import FeatureCards from "@/components/FeatureCards";
+import PromptExamples from "@/components/PromptExamples";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -84,6 +85,7 @@ const Index = () => {
             ) : (
               <>
                 <SearchHero onSearch={handleSearchInitiated} />
+                <PromptExamples onPromptSelect={handleSearchInitiated} />
                 <FeatureCards />
               </>
             )}
