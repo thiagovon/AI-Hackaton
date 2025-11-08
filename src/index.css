@@ -8,51 +8,51 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Dark space theme - permanent */
-    --background: 0 0% 5%;
-    --foreground: 210 40% 98%;
+    /* Light theme - clean and bright */
+    --background: 0 0% 96%;
+    --foreground: 0 0% 10%;
 
-    --card: 0 0% 10%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
 
-    --popover: 0 0% 10%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 10%;
 
-    --primary: 217 91% 60%;
+    --primary: 210 100% 50%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 222 47% 25%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 200 85% 60%;
+    --secondary-foreground: 0 0% 10%;
 
-    --muted: 222 40% 18%;
-    --muted-foreground: 215 20% 75%;
+    --muted: 0 0% 95%;
+    --muted-foreground: 0 0% 45%;
 
-    --accent: 142 76% 36%;
+    --accent: 190 80% 55%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 222 40% 25%;
-    --input: 222 40% 25%;
-    --ring: 217 91% 60%;
+    --border: 0 0% 90%;
+    --input: 0 0% 90%;
+    --ring: 210 100% 50%;
 
-    --radius: 1rem;
+    --radius: 0.75rem;
 
     --success: 160 84% 39%;
     --success-foreground: 0 0% 100%;
 
     --warning: 38 92% 50%;
-    --warning-foreground: 0 0% 0%;
+    --warning-foreground: 0 0% 10%;
 
-    --sidebar-background: 0 0% 8%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 217 91% 60%;
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 0 0% 20%;
+    --sidebar-primary: 210 100% 50%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 222 47% 25%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217 91% 60%;
+    --sidebar-accent: 0 0% 95%;
+    --sidebar-accent-foreground: 0 0% 20%;
+    --sidebar-border: 0 0% 92%;
+    --sidebar-ring: 210 100% 50%;
   }
 }
 
@@ -63,45 +63,36 @@ All colors MUST be HSL.
 
   body {
     @apply text-foreground;
-    background-image: url('/images/space-background.png');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-repeat: no-repeat;
     background-color: hsl(var(--background));
     min-height: 100vh;
   }
 
-  /* Cards e superfícies com glass effect */
+  /* Cards e superfícies */
   .bg-card,
   [class*="bg-card"] {
-    background-color: hsl(var(--card) / 0.85) !important;
-    backdrop-filter: blur(12px);
-    border: 1px solid hsl(var(--border) / 0.3);
+    background-color: hsl(var(--card)) !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   }
 
   .bg-muted,
   [class*="bg-muted"] {
-    background-color: hsl(var(--muted) / 0.4) !important;
-    backdrop-filter: blur(8px);
+    background-color: hsl(var(--muted)) !important;
   }
 
   .bg-background {
-    background-color: hsl(var(--background) / 0.7) !important;
-    backdrop-filter: blur(8px);
+    background-color: hsl(var(--background)) !important;
   }
 
-  /* Sidebar com transparência */
+  /* Sidebar */
   aside[data-sidebar] {
-    background-color: hsl(var(--sidebar-background) / 0.85) !important;
-    backdrop-filter: blur(12px);
-    border-right: 1px solid hsl(var(--border) / 0.3);
+    background-color: hsl(var(--sidebar-background)) !important;
+    border-right: 1px solid hsl(var(--border));
   }
 
-  /* Headers e superfícies fixas */
+  /* Headers */
   header {
-    background-color: hsl(var(--background) / 0.85) !important;
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid hsl(var(--border) / 0.3);
+    background-color: hsl(var(--card)) !important;
+    border-bottom: 1px solid hsl(var(--border));
+    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
   }
 }
