@@ -14,16 +14,201 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      choice: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          image_path: string | null
+          is_correct: boolean | null
+          label: string
+          position: number
+          question_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          image_path?: string | null
+          is_correct?: boolean | null
+          label: string
+          position?: number
+          question_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          image_path?: string | null
+          is_correct?: boolean | null
+          label?: string
+          position?: number
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "choice_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "question"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question: {
+        Row: {
+          created_at: string
+          difficulty: Database["public"]["Enums"]["difficulty_level"] | null
+          explanation: string | null
+          id: string
+          owner_id: string
+          source: string | null
+          stem: string
+          stem_image_path: string | null
+          subject_id: string | null
+          topic_id: string | null
+          type: Database["public"]["Enums"]["question_type"]
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["difficulty_level"] | null
+          explanation?: string | null
+          id?: string
+          owner_id?: string
+          source?: string | null
+          stem: string
+          stem_image_path?: string | null
+          subject_id?: string | null
+          topic_id?: string | null
+          type?: Database["public"]["Enums"]["question_type"]
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          difficulty?: Database["public"]["Enums"]["difficulty_level"] | null
+          explanation?: string | null
+          id?: string
+          owner_id?: string
+          source?: string | null
+          stem?: string
+          stem_image_path?: string | null
+          subject_id?: string | null
+          topic_id?: string | null
+          type?: Database["public"]["Enums"]["question_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subject"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_topic_id_fkey"
+            columns: ["topic_id"]
+            isOneToOne: false
+            referencedRelation: "topic"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_search: {
+        Row: {
+          question_id: string
+          tsv: unknown
+        }
+        Insert: {
+          question_id: string
+          tsv?: unknown
+        }
+        Update: {
+          question_id?: string
+          tsv?: unknown
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_search_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: true
+            referencedRelation: "question"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      subject: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      topic: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+          parent_topic_id: string | null
+          subject_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+          parent_topic_id?: string | null
+          subject_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+          parent_topic_id?: string | null
+          subject_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "topic_parent_topic_id_fkey"
+            columns: ["parent_topic_id"]
+            isOneToOne: false
+            referencedRelation: "topic"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "topic_subject_id_fkey"
+            columns: ["subject_id"]
+            isOneToOne: false
+            referencedRelation: "subject"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      refresh_question_search: { Args: { qid: string }; Returns: undefined }
     }
     Enums: {
-      [_ in never]: never
+      difficulty_level: "easy" | "medium" | "hard"
+      question_type:
+        | "multiple_single"
+        | "multiple_multi"
+        | "true_false"
+        | "open"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +335,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      difficulty_level: ["easy", "medium", "hard"],
+      question_type: [
+        "multiple_single",
+        "multiple_multi",
+        "true_false",
+        "open",
+      ],
+    },
   },
 } as const
