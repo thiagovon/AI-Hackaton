@@ -21,7 +21,7 @@ const menuItems = [
   { title: "Início", url: "/", icon: Home },
   { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
   { title: "Minhas Questões", url: "/minhas-questoes", icon: FileQuestion },
-  { title: "Meus Estudos", url: "/estudos", icon: BookOpen },
+  { title: "Cadernos", url: "/cadernos", icon: BookOpen },
   { title: "Histórico", url: "/historico", icon: History },
   { title: "Favoritos", url: "/favoritos", icon: Star },
   { title: "Configurações", url: "/configuracoes", icon: Settings },

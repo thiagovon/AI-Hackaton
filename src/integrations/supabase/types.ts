@@ -55,6 +55,72 @@ export type Database = {
           },
         ]
       }
+      notebook_questions: {
+        Row: {
+          added_at: string
+          id: string
+          notebook_id: string
+          question_id: string
+        }
+        Insert: {
+          added_at?: string
+          id?: string
+          notebook_id: string
+          question_id: string
+        }
+        Update: {
+          added_at?: string
+          id?: string
+          notebook_id?: string
+          question_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notebook_questions_notebook_id_fkey"
+            columns: ["notebook_id"]
+            isOneToOne: false
+            referencedRelation: "notebooks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "notebook_questions_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "question"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      notebooks: {
+        Row: {
+          color: string | null
+          created_at: string
+          icon: string | null
+          id: string
+          name: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          icon?: string | null
+          id?: string
+          name?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       question: {
         Row: {
           ano: number | null
@@ -123,6 +189,51 @@ export type Database = {
             columns: ["topic_id"]
             isOneToOne: false
             referencedRelation: "topic"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      question_notes: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          notebook_id: string | null
+          question_id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          notebook_id?: string | null
+          question_id: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          notebook_id?: string | null
+          question_id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "question_notes_notebook_id_fkey"
+            columns: ["notebook_id"]
+            isOneToOne: false
+            referencedRelation: "notebooks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "question_notes_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "question"
             referencedColumns: ["id"]
           },
         ]
