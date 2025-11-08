@@ -109,8 +109,8 @@ const Index = () => {
             ) : (
               <>
                 <SearchHero onSearch={handleSearchInitiated} />
-                <PromptExamples onPromptSelect={handleSearchInitiated} />
                 <FeatureCards />
+                <PromptExamples onPromptSelect={handleSearchInitiated} />
               </>
             )}
           </div>

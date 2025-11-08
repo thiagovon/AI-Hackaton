@@ -1,111 +1,81 @@
-import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { ChevronDown } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Sparkles, Timer, Mic, Target } from "lucide-react";
 
 interface Feature {
   title: string;
-  description: string[];
-  examples: string[];
+  description: string;
+  icon: typeof Timer;
+  category: string;
 }
 
 const features: Feature[] = [
   {
     title: "Crie seu próprio simulado",
-    description: ["Coloque tempo", "Quantidade de questões"],
-    examples: [
-      "Configure simulados personalizados",
-      "Defina cronômetro para cada questão",
-      "Escolha o número exato de questões",
-    ],
+    description: "Configure simulados personalizados com tempo e quantidade de questões exata para treinar no seu ritmo",
+    icon: Timer,
+    category: "Simulado"
   },
   {
     title: "Use a funcionalidade de áudio",
-    description: ["Ouça e responda"],
-    examples: [
-      "Escute as questões narradas",
-      "Responda por voz",
-      "Estude em qualquer lugar",
-    ],
+    description: "Escute as questões narradas e responda por voz. Estude em qualquer lugar, mesmo sem olhar para a tela",
+    icon: Mic,
+    category: "Áudio"
   },
   {
     title: "Interaja com o gabarito",
-    description: [
-      "Questione outras formas de resolução",
-      "Descubra meios mais eficientes",
-      "Veja EXATAMENTE onde você errou",
-      "Entenda o seu progresso no tópico",
-    ],
-    examples: [
-      "Analise soluções alternativas",
-      "Compare diferentes métodos",
-      "Identifique padrões de erro",
-    ],
-  },
+    description: "Questione outras formas de resolução, descubra meios mais eficientes e veja EXATAMENTE onde você errou",
+    icon: Target,
+    category: "Gabarito"
+  }
 ];
 
-const FeatureCards = () => {
-  const [openCards, setOpenCards] = useState<number[]>([]);
+interface FeatureCardsProps {
+  onFeatureClick?: (feature: string) => void;
+}
 
-  const toggleCard = (index: number) => {
-    setOpenCards((prev) =>
-      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
-    );
-  };
-
+const FeatureCards = ({ onFeatureClick }: FeatureCardsProps) => {
   return (
-    <div className="container mx-auto px-4 py-16">
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {features.map((feature, index) => (
-          <Card key={index} className={`h-full transition-all hover:shadow-lg ${index === 2 ? 'md:col-span-2 lg:col-span-3' : ''}`}>
-            <CardHeader>
-              <CardTitle className="text-xl">{feature.title}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                {feature.description.map((desc, i) => (
-                  <p key={i} className="text-sm text-muted-foreground">
-                    {desc}
-                  </p>
-                ))}
-              </div>
-
-              <Collapsible
-                open={openCards.includes(index)}
-                onOpenChange={() => toggleCard(index)}
-              >
-                <CollapsibleTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="w-full justify-between font-normal"
-                  >
-                    Como usar
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform ${
-                        openCards.includes(index) ? "rotate-180" : ""
-                      }`}
-                    />
-                  </Button>
-                </CollapsibleTrigger>
-
-                <CollapsibleContent className="space-y-2 pt-2">
-                  <div className="rounded-lg bg-muted p-4">
-                    <ul className="space-y-2">
-                      {feature.examples.map((example, i) => (
-                        <li key={i} className="text-sm text-muted-foreground">
-                          • {example}
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </CardContent>
-          </Card>
-        ))}
+    <section className="w-full max-w-7xl mx-auto px-4 py-12">
+      <div className="text-center mb-8">
+        <div className="inline-flex items-center gap-2 mb-3">
+          <Sparkles className="w-5 h-5 text-primary" />
+          <h2 className="text-2xl font-semibold text-foreground">
+            Funcionalidades Principais
+          </h2>
+        </div>
+        <p className="text-muted-foreground">
+          Recursos poderosos para potencializar seus estudos
+        </p>
       </div>
-    </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {features.map((feature, index) => {
+          const Icon = feature.icon;
+          return (
+            <Card
+              key={index}
+              className="p-5 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-[1.02] hover:border-primary/50 group"
+              onClick={() => onFeatureClick?.(feature.title)}
+            >
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs font-medium text-primary bg-primary/10 px-2 py-1 rounded">
+                    {feature.category}
+                  </span>
+                  <Icon className="w-5 h-5 text-muted-foreground group-hover:text-primary transition-colors" />
+                </div>
+                <h3 className="font-semibold text-foreground group-hover:text-primary transition-colors">
+                  {feature.title}
+                </h3>
+                <p className="text-sm text-muted-foreground line-clamp-3">
+                  {feature.description}
+                </p>
+              </div>
+            </Card>
+          );
+        })}
+      </div>
+    </section>
   );
 };
 
