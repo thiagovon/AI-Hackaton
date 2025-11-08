@@ -2,9 +2,10 @@ import { useState } from "react";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import Header from "@/components/Header";
-import ChatWelcome from "@/components/ChatWelcome";
+import SearchHero from "@/components/SearchHero";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import SearchRefinementChat from "@/components/SearchRefinementChat";
+import FeatureCards from "@/components/FeatureCards";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
@@ -81,7 +82,10 @@ const Index = () => {
                 onRefinementComplete={handleRefinementComplete}
               />
             ) : (
-              <ChatWelcome onPromptSelect={handleSearchInitiated} />
+              <>
+                <SearchHero onSearch={handleSearchInitiated} />
+                <FeatureCards />
+              </>
             )}
           </div>
         </div>
