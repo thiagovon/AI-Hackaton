@@ -18,12 +18,7 @@ interface SearchRefinementChatProps {
 }
 
 const SearchRefinementChat = ({ initialQuery, onBack, onRefinementComplete }: SearchRefinementChatProps) => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      role: "assistant",
-      content: `Ótimo! Você quer estudar sobre "${initialQuery}". Para encontrar as questões mais adequadas para você, preciso saber um pouco mais. Você tem preferência por alguma banca organizadora específica?`
-    }
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -32,6 +27,38 @@ const SearchRefinementChat = ({ initialQuery, onBack, onRefinementComplete }: Se
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    // Iniciar conversa automaticamente
+    startRefinement();
+  }, []);
+
+  const startRefinement = async () => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("refine-search", {
+        body: { 
+          messages: [
+            { role: "user", content: `Tópico inicial: ${initialQuery}` }
+          ]
+        }
+      });
+
+      if (error) throw error;
+
+      const assistantMessage = data.result;
+      setMessages([{ role: "assistant", content: assistantMessage }]);
+    } catch (error) {
+      console.error("Erro ao iniciar refinamento:", error);
+      toast({
+        title: "Erro",
+        description: "Não foi possível iniciar o refinamento. Tente novamente.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSend = async () => {
     if (!input.trim() || isLoading) return;
@@ -73,6 +100,7 @@ const SearchRefinementChat = ({ initialQuery, onBack, onRefinementComplete }: Se
           if (line.includes('Instituição:')) refinedParams.instituicao = line.split(':')[1]?.trim();
           if (line.includes('Cargo:')) refinedParams.cargo = line.split(':')[1]?.trim();
           if (line.includes('Período:')) refinedParams.periodo = line.split(':')[1]?.trim();
+          if (line.includes('Disciplina:')) refinedParams.disciplina = line.split(':')[1]?.trim();
         });
 
         // Wait a moment to show the summary, then proceed
@@ -111,11 +139,17 @@ const SearchRefinementChat = ({ initialQuery, onBack, onRefinementComplete }: Se
         <CardHeader>
           <CardTitle className="text-2xl">Aprimore sua pesquisa</CardTitle>
           <p className="text-sm text-muted-foreground">
-            Responda algumas perguntas para encontrar questões mais relevantes
+            Informe os detalhes que desejar para encontrar questões mais específicas
           </p>
         </CardHeader>
         <CardContent>
-          <div className="space-y-4 mb-4 max-h-[400px] overflow-y-auto">
+          {messages.length === 0 && isLoading ? (
+            <div className="flex items-center justify-center py-12">
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+          ) : (
+            <>
+              <div className="space-y-4 mb-4 max-h-[400px] overflow-y-auto">
             {messages.map((message, index) => (
               <div
                 key={index}
@@ -150,19 +184,21 @@ const SearchRefinementChat = ({ initialQuery, onBack, onRefinementComplete }: Se
               placeholder="Digite sua resposta..."
               disabled={isLoading}
             />
-            <Button onClick={handleSend} disabled={isLoading || !input.trim()}>
-              <Send className="h-4 w-4" />
-            </Button>
-          </div>
+              <Button onClick={handleSend} disabled={isLoading || !input.trim()}>
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
 
-          <Button
-            variant="ghost"
-            onClick={handleSkip}
-            className="w-full mt-4"
-            disabled={isLoading}
-          >
-            Pular refinamento
-          </Button>
+            <Button
+              variant="ghost"
+              onClick={handleSkip}
+              className="w-full mt-4"
+              disabled={isLoading}
+            >
+              Pular refinamento
+            </Button>
+          </>
+          )}
         </CardContent>
       </Card>
     </div>

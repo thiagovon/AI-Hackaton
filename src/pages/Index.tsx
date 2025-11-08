@@ -33,6 +33,9 @@ const Index = () => {
     if (refinedParams.periodo && refinedParams.periodo !== "qualquer") {
       refinedQuery += ` - Período: ${refinedParams.periodo}`;
     }
+    if (refinedParams.disciplina && refinedParams.disciplina !== "qualquer") {
+      refinedQuery += ` - Disciplina: ${refinedParams.disciplina}`;
+    }
 
     try {
       const { data, error } = await supabase.functions.invoke("search-questions", {
