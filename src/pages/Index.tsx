@@ -1,12 +1,31 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState } from "react";
+import Header from "@/components/Header";
+import SearchHero from "@/components/SearchHero";
+import ResultsDisplay from "@/components/ResultsDisplay";
 
 const Index = () => {
+  const [searchResult, setSearchResult] = useState<{ query: string; result: string } | null>(null);
+
+  const handleSearch = (query: string, result: string) => {
+    setSearchResult({ query, result });
+  };
+
+  const handleBack = () => {
+    setSearchResult(null);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
+    <div className="min-h-screen bg-background">
+      <Header />
+      {searchResult ? (
+        <ResultsDisplay
+          query={searchResult.query}
+          result={searchResult.result}
+          onBack={handleBack}
+        />
+      ) : (
+        <SearchHero onSearch={handleSearch} />
+      )}
     </div>
   );
 };
