@@ -121,6 +121,39 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          email_notifications: boolean | null
+          full_name: string | null
+          id: string
+          target_exam: string | null
+          theme: string | null
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          email_notifications?: boolean | null
+          full_name?: string | null
+          id: string
+          target_exam?: string | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          email_notifications?: boolean | null
+          full_name?: string | null
+          id?: string
+          target_exam?: string | null
+          theme?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       question: {
         Row: {
           ano: number | null
