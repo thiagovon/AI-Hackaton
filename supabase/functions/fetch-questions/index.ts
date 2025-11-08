@@ -34,6 +34,7 @@ serve(async (req) => {
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
     // Buscar questões usando full-text search
+    // A busca agora inclui metadados (instituicao, banca, cargo, source) na indexação
     const { data: searchResults, error: searchError } = await supabase
       .from('question_search')
       .select('question_id')
@@ -73,6 +74,10 @@ serve(async (req) => {
         source,
         explanation,
         created_at,
+        instituicao,
+        banca,
+        cargo,
+        ano,
         choice (
           id,
           label,
