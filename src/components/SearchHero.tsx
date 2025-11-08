@@ -6,7 +6,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
 interface SearchHeroProps {
-  onSearch: (query: string, result: string) => void;
+  onSearch: (query: string) => void;
 }
 
 const SUGGESTIONS = [
@@ -54,40 +54,9 @@ const SearchHero = ({ onSearch }: SearchHeroProps) => {
       return;
     }
 
+    onSearch(query.trim());
+    setQuery("");
     setShowSuggestions(false);
-
-    setIsLoading(true);
-    
-    try {
-      const { data, error } = await supabase.functions.invoke("search-questions", {
-        body: { query: query.trim() },
-      });
-
-      if (error) {
-        console.error("Erro:", error);
-        
-        if (error.message?.includes("429")) {
-          toast.error("Muitas requisições. Aguarde um momento e tente novamente.");
-        } else if (error.message?.includes("402")) {
-          toast.error("Créditos insuficientes. Entre em contato com o suporte.");
-        } else {
-          toast.error("Erro ao buscar questões. Tente novamente.");
-        }
-        return;
-      }
-
-      if (data?.result) {
-        onSearch(query, data.result);
-        setQuery("");
-      } else {
-        toast.error("Nenhum resultado encontrado");
-      }
-    } catch (error) {
-      console.error("Erro na busca:", error);
-      toast.error("Erro ao processar sua busca");
-    } finally {
-      setIsLoading(false);
-    }
   };
 
   return (
