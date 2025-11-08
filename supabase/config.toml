@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.fetch-questions]
 verify_jwt = false
+
+[functions.explain-question]
+verify_jwt = false

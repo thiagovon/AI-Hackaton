@@ -33,35 +33,30 @@ serve(async (req) => {
 
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    // Buscar questões usando full-text search
-    // A busca agora inclui metadados (instituicao, banca, cargo, source) na indexação
-    const { data: searchResults, error: searchError } = await supabase
-      .from('question_search')
-      .select('question_id')
-      .textSearch('tsv', query, {
-        type: 'websearch',
-        config: 'portuguese'
-      })
+    // Para testes: retornar TODAS as questões independente da busca
+    const { data: allQuestions, error: questionsListError } = await supabase
+      .from('question')
+      .select('id')
       .limit(limit);
 
-    if (searchError) {
-      console.error("Erro ao buscar questões:", searchError);
-      throw searchError;
+    if (questionsListError) {
+      console.error("Erro ao listar questões:", questionsListError);
+      throw questionsListError;
     }
 
-    if (!searchResults || searchResults.length === 0) {
-      console.log("Nenhuma questão encontrada");
+    if (!allQuestions || allQuestions.length === 0) {
+      console.log("Nenhuma questão encontrada no banco");
       return new Response(
         JSON.stringify({ 
           questions: [],
-          message: "Nenhuma questão encontrada sobre este tópico no momento."
+          message: "Nenhuma questão encontrada no banco de dados."
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
     }
 
     // Buscar as questões completas com as alternativas
-    const questionIds = searchResults.map(r => r.question_id);
+    const questionIds = allQuestions.map(q => q.id);
     
     const { data: questions, error: questionsError } = await supabase
       .from('question')
