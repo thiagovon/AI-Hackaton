@@ -5,7 +5,6 @@ import Header from "@/components/Header";
 import SearchHero from "@/components/SearchHero";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import SearchRefinementChat from "@/components/SearchRefinementChat";
-import ChatWelcome from "@/components/ChatWelcome";
 import FeatureCards from "@/components/FeatureCards";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -13,17 +12,10 @@ import { useToast } from "@/hooks/use-toast";
 const Index = () => {
   const [searchResult, setSearchResult] = useState<{ query: string; result: string } | null>(null);
   const [refinementMode, setRefinementMode] = useState<{ query: string } | null>(null);
-  const [showWelcome, setShowWelcome] = useState(true);
   const { toast } = useToast();
 
   const handleSearchInitiated = (query: string) => {
-    setShowWelcome(false);
     setRefinementMode({ query });
-  };
-
-  const handlePromptSelect = (prompt: string) => {
-    setShowWelcome(false);
-    setRefinementMode({ query: prompt });
   };
 
   const handleRefinementComplete = async (query: string, refinedParams: any) => {
@@ -68,7 +60,6 @@ const Index = () => {
   const handleBack = () => {
     setSearchResult(null);
     setRefinementMode(null);
-    setShowWelcome(true);
   };
 
   return (
@@ -90,8 +81,6 @@ const Index = () => {
                 onBack={handleBack}
                 onRefinementComplete={handleRefinementComplete}
               />
-            ) : showWelcome ? (
-              <ChatWelcome onPromptSelect={handlePromptSelect} />
             ) : (
               <>
                 <SearchHero onSearch={handleSearchInitiated} />
