@@ -79,7 +79,14 @@ const Notebooks = () => {
 
     try {
       const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+      if (!user) {
+        toast({
+          title: "Erro",
+          description: "Você precisa estar logado.",
+          variant: "destructive",
+        });
+        return;
+      }
 
       const { data, error } = await supabase
         .from('notebooks')
@@ -92,8 +99,12 @@ const Notebooks = () => {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro detalhado:", error);
+        throw error;
+      }
 
+      // Atualizar estado local
       setNotebooks([data, ...notebooks]);
       setNewNotebookName("");
       setNewNotebookIcon("📚");
@@ -109,7 +120,7 @@ const Notebooks = () => {
       console.error("Erro ao criar caderno:", error);
       toast({
         title: "Erro",
-        description: "Não foi possível criar o caderno.",
+        description: "Não foi possível criar o caderno. Verifique se você está logado.",
         variant: "destructive",
       });
     }

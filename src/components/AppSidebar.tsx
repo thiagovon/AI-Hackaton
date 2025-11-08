@@ -1,4 +1,4 @@
-import { Home, BookOpen, History, Star, Settings, LogOut, LayoutDashboard, FileQuestion } from "lucide-react";
+import { Home, BookOpen, History, Settings, LogOut, LayoutDashboard, FileQuestion } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import { useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -23,7 +23,6 @@ const menuItems = [
   { title: "Minhas Questões", url: "/minhas-questoes", icon: FileQuestion },
   { title: "Cadernos", url: "/cadernos", icon: BookOpen },
   { title: "Histórico", url: "/historico", icon: History },
-  { title: "Favoritos", url: "/favoritos", icon: Star },
   { title: "Configurações", url: "/configuracoes", icon: Settings },
 ];
 

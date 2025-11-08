@@ -77,13 +77,14 @@ const NotebookSidebar = ({
       setNewNotebookIcon("📚");
       setNewNotebookColor("#3B82F6");
       setIsCreateDialogOpen(false);
-      onSelectNotebook(data.id);
-      window.location.reload();
-
+      
       toast({
         title: "Caderno criado!",
         description: `"${data.name}" foi criado com sucesso.`,
       });
+      
+      // Recarregar a página para atualizar a lista
+      window.location.reload();
     } catch (error) {
       console.error("Erro ao criar caderno:", error);
       toast({
